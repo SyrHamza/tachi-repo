@@ -1,15 +1,22 @@
+/*
+ * @name ManhwaRead
+ * @version 1.0.7
+ * @lang en
+ * @type js
+ */
+
 const source = {
     name: "ManhwaRead",
     baseUrl: "https://manhwaread.com",
     lang: "en",
     type: "js",
 
-    // Holt die neuesten Updates
+    // 1. Neueste Updates (Startseite)
     getLatestRequest: (page) => {
         return `${source.baseUrl}/manga/page/${page}/?m_order=latest`;
     },
 
-    // Verarbeitet die Liste der Mangas
+    // 2. Mangas aus der Webseite auslesen
     parseMangaList: (html) => {
         const mangaList = [];
         const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -30,12 +37,12 @@ const source = {
         return mangaList;
     },
 
-    // Suche-Funktion
+    // 3. Suche-Funktion
     getSearchRequest: (query, page) => {
         return `${source.baseUrl}/page/${page}/?s=${encodeURIComponent(query)}&post_type=wp-manga`;
     },
 
-    // Kapitel-Liste parsen (Wichtig für das Lesen!)
+    // 4. Kapitel-Liste eines Mangas laden
     getChapterList: (html) => {
         const chapters = [];
         const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -51,5 +58,23 @@ const source = {
             }
         });
         return chapters;
+    },
+
+    // 5. Bilder eines Kapitels laden (Reader)
+    getPageList: (html) => {
+        const pages = [];
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const images = doc.querySelectorAll('div.reading-content img');
+
+        images.forEach(img => {
+            const url = img.getAttribute('data-src') || img.getAttribute('src');
+            if (url) {
+                pages.push(url.trim());
+            }
+        });
+        return pages;
     }
 };
+
+// Wichtig für manche iOS-Umgebungen: Das Objekt am Ende aufrufen
+source;
