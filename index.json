@@ -1,0 +1,21 @@
+[
+  {
+    "name": "ManhwaRead",
+    "pkg": "manhwaread.js",
+    "apk": "https://raw.githubusercontent.com/SyrHamza/tachi-repo/main/apk/manhwaread.js",
+    "lang": "en",
+    "code": 10,
+    "version": "1.1.0",
+    "nsfw": 1,
+    "type": "js",
+    "iconUrl": "https://raw.githubusercontent.com/SyrHamza/tachi-repo/main/icon/manhwaread.png",
+    "sources": [
+      {
+        "name": "ManhwaRead",
+        "lang": "en",
+        "id": "manhwaread-unique-id",
+        "baseUrl": "https://manhwaread.com"
+      }
+    ]
+  }
+]
