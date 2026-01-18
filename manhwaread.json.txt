@@ -1,0 +1,8 @@
+{
+  "name": "ManhwaRead",
+  "baseUrl": "https://manhwaread.com",
+  "lang": "en",
+  "type": "madara",
+  "searchUrl": "https://manhwaread.com/?s={query}&post_type=wp-manga",
+  "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Isekai", "Romance", "Shounen"]
+}
