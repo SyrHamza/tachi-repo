@@ -1,50 +1,69 @@
-const extension = {
+const source = {
     name: "ManhwaRead",
     baseUrl: "https://manhwaread.com",
     lang: "en",
-    nsfw: 1,
+    type: "js",
 
-    // Suche und Startseite
-    getLatestRequest: (page) => `${extension.baseUrl}/manga/page/${page}/?m_order=latest`,
-    getSearchRequest: (query, page) => `${extension.baseUrl}/page/${page}/?s=${query}&post_type=wp-manga`,
-
-    // Parser für die Liste (Nutzt deine Selektoren)
-    parseMangaList: (html) => {
-        const results = [];
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        doc.querySelectorAll('div.c-tabs-item__content').forEach(item => {
-            results.push({
-                name: item.querySelector('div.post-title h3 a').textContent.trim(),
-                url: item.querySelector('div.post-title h3 a').getAttribute('href'),
-                thumbnail: item.querySelector('img.img-responsive').getAttribute('src')
-            });
-        });
-        return results;
+    // Holt die neuesten Updates
+    getLatestRequest: (page) => {
+        return `${source.baseUrl}/manga/page/${page}/?m_order=latest`;
     },
 
-    // Kapitel-Parser
+    // Verarbeitet die Liste der Mangas
+    parseMangaList: (html) => {
+        const mangaList = [];
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        // Wir suchen nach dem Container, den du im Screenshot hattest
+        const items = doc.querySelectorAll('div.page-item-detail, div.c-tabs-item__content');
+        
+        items.forEach(item => {
+            const titleElement = item.querySelector('div.post-title h3 a, h3 a');
+            const imgElement = item.querySelector('img');
+            
+            if (titleElement) {
+                mangaList.push({
+                    name: titleElement.textContent.trim(),
+                    url: titleElement.getAttribute('href'),
+                    thumbnail: imgElement ? (imgElement.getAttribute('data-src') || imgElement.getAttribute('src')) : ""
+                });
+            }
+        });
+        return mangaList;
+    },
+
+    // Suche-Funktion
+    getSearchRequest: (query, page) => {
+        return `${source.baseUrl}/page/${page}/?s=${query}&post_type=wp-manga`;
+    },
+
+    // Kapitel-Liste einer Serie
     parseChapterList: (html) => {
         const chapters = [];
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        doc.querySelectorAll('li.wp-manga-chapter').forEach(ch => {
-            const link = ch.querySelector('a');
-            chapters.push({
-                name: link.textContent.trim(),
-                url: link.getAttribute('href')
-            });
+        const rows = doc.querySelectorAll('li.wp-manga-chapter');
+        rows.forEach(row => {
+            const a = row.querySelector('a');
+            if (a) {
+                chapters.push({
+                    name: a.textContent.trim(),
+                    url: a.getAttribute('href')
+                });
+            }
         });
         return chapters;
     },
 
-    // Bilder-Parser (für die Seiten im Kapitel)
+    // Die eigentlichen Bilder im Kapitel
     parsePageList: (html) => {
         const pages = [];
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        doc.querySelectorAll('div.page-break img').forEach(img => {
-            pages.push(img.getAttribute('src').trim());
+        const images = doc.querySelectorAll('div.page-break img');
+        images.forEach(img => {
+            const src = img.getAttribute('data-src') || img.getAttribute('src');
+            if (src) pages.push(src.trim());
         });
         return pages;
     }
 };
 
-module.exports = extension;
+module.exports = source;
