@@ -1,7 +1,6 @@
 {
-  "name": "SyrHamza Custom Repo",
-  "author": "SyrHamza",
-  "description": "Custom JS Extensions for Tachimanga",
-  "baseUrl": "https://raw.githubusercontent.com/SyrHamza/tachi-repo/main",
-  "version": 1
+  "meta": {
+    "name": "SyrHamza Custom Repo",
+    "website": "https://SyrHamza.github.io"
+  }
 }
