@@ -4,5 +4,21 @@
   "lang": "en",
   "type": "madara",
   "searchUrl": "https://manhwaread.com/?s={query}&post_type=wp-manga",
-  "genres": ["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Isekai", "Romance", "Shounen"]
+  "genres": [
+    "Action",
+    "Adventure",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Isekai",
+    "Romance",
+    "Shounen",
+    "Supernatural"
+  ],
+  "selectors": {
+    "mangaList": "div.c-tabs-item__content",
+    "title": "div.post-title h3 a",
+    "url": "div.post-title h3 a@href",
+    "thumbnail": "img.img-responsive"
+  }
 }
