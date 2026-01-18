@@ -1,6 +1,8 @@
 {
   "meta": {
     "name": "SyrHamza Custom Repo",
-    "website": "https://github.com/SyrHamza/tachi-repo"
+    "description": "Meine privaten Extensions für Tachimanga",
+    "website": "https://github.com/SyrHamza/tachi-repo",
+    "icon": "https://manhwaread.com/favicon.ico"
   }
 }
